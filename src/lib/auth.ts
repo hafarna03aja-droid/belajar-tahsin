@@ -3,6 +3,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
+// Programmatic sanitization for NEXTAUTH_URL to prevent ERR_INVALID_URL caused by Cloudflare env typos
+if (process.env.NEXTAUTH_URL) {
+  process.env.NEXTAUTH_URL = process.env.NEXTAUTH_URL.trim()
+    .replace(/^https?:\/\/\s*https?:\/\//i, "https://");
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
