@@ -1,13 +1,13 @@
 const { PrismaClient } = require('../src/generated/prisma');
-const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
-const path = require('path');
+const { PrismaPg } = require('@prisma/adapter-pg');
+const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 
 async function main() {
-  const url = process.env.DATABASE_URL || "file:./dev.db";
-  const relativePath = url.replace(/^file:/, "");
-  const absolutePath = path.resolve(process.cwd(), relativePath);
-  const adapter = new PrismaBetterSqlite3({ url: absolutePath });
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+  });
+  const adapter = new PrismaPg(pool);
   const prisma = new PrismaClient({ adapter });
 
   console.log("Memulai seeding database...");
