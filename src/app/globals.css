@@ -1,0 +1,416 @@
+@import "tailwindcss";
+
+/* ============================================================
+   QURAN EDUTECH — Premium Deep Navy Design System
+   ============================================================ */
+
+@theme inline {
+  /* Brand Palette - Deep Sapphire & Bright Sky */
+  --color-brand-50:  #f0f7ff;
+  --color-brand-100: #e0effe;
+  --color-brand-200: #bae0fd;
+  --color-brand-300: #7cc2fc;
+  --color-brand-400: #38bdf8;
+  --color-brand-500: #0ea5e9;
+  --color-brand-600: #0284c7;
+  --color-brand-700: #0369a1;
+  --color-brand-800: #075985;
+  --color-brand-900: #0c4a6e;
+
+  /* Gold & Orange Accent */
+  --color-gold-400: #fbbf24;
+  --color-gold-500: #f59e0b;
+  --color-gold-600: #d97706;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+
+  /* Surface — Premium Slate / Obsidian Blue */
+  --color-surface-950: #020617;
+  --color-surface-900: #060b13;
+  --color-surface-800: #0b1329;
+  --color-surface-700: #1e293b;
+  --color-surface-600: #334155;
+  --color-surface-500: #475569;
+
+  /* Text */
+  --color-text-primary:   #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted:     #64748b;
+
+  /* Status */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger:  #ef4444;
+
+  /* Fonts */
+  --font-sans:   var(--font-inter);
+  --font-arabic: var(--font-amiri);
+
+  /* Shadows */
+  --shadow-glow-brand: 0 0 20px rgba(14, 165, 233, 0.35);
+  --shadow-glow-gold:  0 0 20px rgba(245, 158, 11, 0.35);
+}
+
+/* ============================================================
+   Base Reset & Body
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-surface-900);
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.05), transparent 30%),
+    radial-gradient(circle at 85% 30%, rgba(245, 158, 11, 0.04), transparent 30%);
+  color: #f8fafc;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  min-height: 100dvh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   Custom Scrollbar
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-950);
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9;
+}
+
+/* ============================================================
+   Arabic Font Utility
+   ============================================================ */
+.font-arabic {
+  font-family: var(--font-amiri), 'Scheherazade New', serif;
+  direction: rtl;
+  letter-spacing: 0.02em;
+  line-height: 2;
+}
+
+/* ============================================================
+   Glassmorphism Card & High-Fidelity Capsules
+   ============================================================ */
+.glass-card {
+  background: rgba(11, 19, 41, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1.75rem; /* Soft, very rounded corners */
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.03),
+              0 10px 40px 0 rgba(0, 0, 0, 0.45);
+}
+
+.glass-card-hover {
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.glass-card-hover:hover {
+  background: rgba(11, 19, 41, 0.7);
+  border-color: rgba(14, 165, 233, 0.25);
+  transform: translateY(-6px) scale(1.005);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.07),
+              0 15px 50px rgba(14, 165, 233, 0.12);
+}
+
+/* ============================================================
+   Brand Gradient Text
+   ============================================================ */
+.gradient-text {
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 30%, #fbbf24 80%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   Brand Buttons & Orange Glow Style
+   ============================================================ */
+.btn-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border: none;
+  border-radius: 0.875rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+  text-decoration: none;
+}
+.btn-brand:hover {
+  background: linear-gradient(135deg, #0369a1, #0284c7);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.45);
+}
+.btn-brand:active {
+  transform: translateY(0);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: transparent;
+  color: #94a3b8;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.875rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+.btn-ghost:hover {
+  border-color: rgba(14, 165, 233, 0.4);
+  color: #0ea5e9;
+}
+
+/* Premium Orange Glowing Buttons */
+.btn-orange-glow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border: none;
+  border-radius: 9999px; /* Capsule shape */
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(234, 88, 12, 0.35);
+  text-decoration: none;
+}
+.btn-orange-glow:hover {
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5);
+}
+.btn-orange-glow:active {
+  transform: translateY(0);
+}
+
+.btn-orange-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.5rem;
+  background: rgba(245, 158, 11, 0.05);
+  color: #fbbf24;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 1.5px solid rgba(245, 158, 11, 0.4);
+  border-radius: 9999px; /* Capsule shape */
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.1);
+  text-decoration: none;
+}
+.btn-orange-outline:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.85);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+}
+
+/* ============================================================
+   Form Input
+   ============================================================ */
+.input-field {
+  width: 100%;
+  padding: 0.875rem 1.125rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.875rem;
+  color: #f1f5f9;
+  font-size: 0.9375rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input-field::placeholder {
+  color: #475569;
+}
+.input-field:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+}
+
+/* ============================================================
+   Progress Bar
+   ============================================================ */
+.progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   Badge
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.badge-success { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+.badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.badge-danger  { background: rgba(239, 68, 68, 0.15);  color: #f87171; }
+.badge-blue    { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+
+/* ============================================================
+   AI Feedback Colors (Tajwid Assessment)
+   ============================================================ */
+.tajwid-correct  { color: #10b981; }
+.tajwid-warning  { color: #f59e0b; }
+.tajwid-error    { color: #ef4444; }
+
+/* ============================================================
+   Micro-animations
+   ============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(14, 165, 233, 0.2); }
+  50%       { box-shadow: 0 0 24px rgba(14, 165, 233, 0.55); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.5s ease both; }
+.animate-fade-in    { animation: fadeIn 0.4s ease both; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-float      { animation: float 3s ease-in-out infinite; }
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* ============================================================
+   Skeleton Loading
+   ============================================================ */
+.skeleton {
+  background: linear-gradient(90deg, #0b1329 25%, #1e293b 50%, #0b1329 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
+
+/* ============================================================
+   Mic Button (AI Speech)
+   ============================================================ */
+.mic-button {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+  position: relative;
+}
+.mic-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 28px rgba(14, 165, 233, 0.55);
+}
+.mic-button.recording {
+  animation: pulse-glow 1s ease-in-out infinite;
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+}
+.mic-button.recording::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(239, 68, 68, 0.4);
+  animation: pulse-glow 1s ease-in-out infinite;
+}
+
+/* ============================================================
+   Streak Flame
+   ============================================================ */
+.streak-badge {
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+  border-radius: 0.75rem;
+  padding: 0.375rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: white;
+  box-shadow: 0 2px 12px rgba(255, 107, 53, 0.4);
+}
+
+/* ============================================================
+   Mobile-safe bottom nav spacing
+   ============================================================ */
+.pb-safe {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+.mb-nav {
+  margin-bottom: 5rem;
+}

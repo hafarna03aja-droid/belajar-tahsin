@@ -1,0 +1,149 @@
+// This is your Prisma schema file
+// https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("student") // "student" | "ustadz" | "admin"
+  level         String    @default("dasar")   // "dasar" | "menengah" | "mahir"
+  points        Int       @default(0)
+  streak        Int       @default(0)
+  lastActiveAt  DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  progress         Progress[]
+  audioSubmissions AudioSubmission[]
+  ustadzReviews    AudioSubmission[] @relation("UstadzReviews")
+  accounts         Account[]
+  sessions         Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Kategori {
+  id        String   @id @default(cuid())
+  nama      String   // "Hijaiyah" | "Tahsin" | "Tajwid"
+  level     String   // "dasar" | "menengah" | "mahir"
+  urutan    Int
+  icon      String?
+  createdAt DateTime @default(now())
+
+  materi Materi[]
+}
+
+model Materi {
+  id          String   @id @default(cuid())
+  kategoriId  String
+  judul       String
+  deskripsi   String?
+  videoUrl    String?
+  kontenTeks  String?
+  audioUrl    String?  // audio contoh pelafalan
+  urutan      Int
+  nilaiMinKuis Int     @default(80)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  kategori Kategori   @relation(fields: [kategoriId], references: [id])
+  progress Progress[]
+  quizSoal QuizSoal[]
+}
+
+model Progress {
+  id          String   @id @default(cuid())
+  userId      String
+  materiId    String
+  status      String   @default("belum") // "belum" | "dalam_proses" | "lulus"
+  nilaiKuis   Int?
+  aiScore     Float?
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  materi Materi @relation(fields: [materiId], references: [id])
+
+  @@unique([userId, materiId])
+}
+
+model QuizSoal {
+  id        String   @id @default(cuid())
+  materiId  String
+  pertanyaan String
+  opsiA     String
+  opsiB     String
+  opsiC     String
+  opsiD     String
+  jawaban   String   // "A" | "B" | "C" | "D"
+  urutan    Int
+  createdAt DateTime @default(now())
+
+  materi Materi @relation(fields: [materiId], references: [id])
+}
+
+model AudioSubmission {
+  id           String    @id @default(cuid())
+  userId       String
+  ustadzId     String?
+  surah        String
+  ayat         String
+  audioUrl     String
+  durasiDetik  Int
+  status       String    @default("menunggu") // "menunggu" | "diproses" | "selesai"
+  slaDeadline  DateTime
+  catatanUstadz String?
+  audioBalasanUrl String?
+  submittedAt  DateTime  @default(now())
+  reviewedAt   DateTime?
+
+  user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ustadz User? @relation("UstadzReviews", fields: [ustadzId], references: [id])
+}
