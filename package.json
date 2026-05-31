@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "build:cloudflare": "prisma generate && opennextjs-cloudflare build",
-    "cf:deploy": "npm run build:cloudflare && wrangler pages deploy",
-    "cf:preview": "npm run build:cloudflare && wrangler pages dev",
+    "cf:deploy": "npm run build:cloudflare && wrangler deploy",
+    "cf:preview": "npm run build:cloudflare && wrangler dev",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate"
