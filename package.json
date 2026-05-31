@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:cloudflare": "prisma generate && opennextjs-cloudflare build",
+    "build:cloudflare": "prisma generate && opennextjs-cloudflare build --minify",
     "cf:deploy": "npm run build:cloudflare && wrangler deploy",
     "cf:preview": "npm run build:cloudflare && wrangler dev",
     "start": "next start",
