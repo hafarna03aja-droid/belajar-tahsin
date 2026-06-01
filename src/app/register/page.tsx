@@ -6,9 +6,16 @@ import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ name: "", email: "", password: "", confirm: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirm: "",
+    role: "santri",
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPass, setShowPass] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +34,11 @@ export default function RegisterPage() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: form.name, email: form.email, password: form.password }),
+      body: JSON.stringify({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      }),
     });
     const data = await res.json();
     setLoading(false);
@@ -49,83 +60,151 @@ export default function RegisterPage() {
 
       <div className="w-full max-w-[480px] animate-fade-in-up">
         {/* Logo */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-brand-600/20 border border-brand-500/30 mb-5 animate-float">
-            <span className="text-4xl">🕌</span>
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-600/20 border border-brand-500/30 mb-4 animate-float">
+            <span className="text-3xl">📖</span>
           </div>
-          <h1 className="text-3xl font-bold gradient-text mb-2">Buat Akun Baru</h1>
-          <p className="text-base text-slate-400 mt-1">Mulai perjalanan belajar Al-Qur&apos;an Anda</p>
+          <h1 className="text-2xl font-extrabold text-white mb-1">Buat Akun Baru</h1>
+          <p className="text-sm text-slate-400">
+            Bergabunglah dengan QuranEdutech — gratis selamanya
+          </p>
         </div>
 
         {/* Card */}
-        <div className="glass-card p-10">
+        <div className="glass-card p-8">
           {error && (
-            <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm leading-relaxed">
+            <div className="mb-5 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm leading-relaxed">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Nama */}
             <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-slate-300 mb-3">Nama Lengkap</label>
-              <input
-                id="name"
-                type="text"
-                required
-                autoComplete="name"
-                placeholder="Ahmad Fauzan"
-                className="input-field"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
+              <label htmlFor="name" className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-widest">
+                Nama Lengkap
+              </label>
+              <div className="input-wrap">
+                <span className="input-icon">👤</span>
+                <input
+                  id="name"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  placeholder="Ahmad Fauzan"
+                  className="input-field-icon"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                />
+              </div>
             </div>
 
+            {/* Email */}
             <div>
-              <label htmlFor="reg-email" className="block text-sm font-semibold text-slate-300 mb-3">Email</label>
-              <input
-                id="reg-email"
-                type="email"
-                required
-                autoComplete="email"
-                placeholder="contoh@email.com"
-                className="input-field"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-              />
+              <label htmlFor="reg-email" className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-widest">
+                Email
+              </label>
+              <div className="input-wrap">
+                <span className="input-icon">✉</span>
+                <input
+                  id="reg-email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  placeholder="contoh@email.com"
+                  className="input-field-icon"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
+              </div>
             </div>
 
+            {/* Password */}
             <div>
-              <label htmlFor="reg-password" className="block text-sm font-semibold text-slate-300 mb-3">Password</label>
-              <input
-                id="reg-password"
-                type="password"
-                required
-                autoComplete="new-password"
-                placeholder="Minimal 8 karakter"
-                className="input-field"
-                value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
-              />
+              <label htmlFor="reg-password" className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-widest">
+                Password{" "}
+                <span className="text-slate-600 normal-case tracking-normal font-normal">(min. 8 karakter)</span>
+              </label>
+              <div className="input-wrap">
+                <span className="input-icon">🔒</span>
+                <input
+                  id="reg-password"
+                  type={showPass ? "text" : "password"}
+                  required
+                  autoComplete="new-password"
+                  placeholder="••••••••"
+                  className="input-field-icon"
+                  style={{ paddingRight: "2.75rem" }}
+                  value={form.password}
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}
+                />
+                <button
+                  type="button"
+                  className="input-eye-btn"
+                  onClick={() => setShowPass(!showPass)}
+                  aria-label="Tampilkan password"
+                >
+                  {showPass ? "🙈" : "👁"}
+                </button>
+              </div>
             </div>
 
+            {/* Konfirmasi Password */}
             <div>
-              <label htmlFor="confirm" className="block text-sm font-semibold text-slate-300 mb-3">Konfirmasi Password</label>
-              <input
-                id="confirm"
-                type="password"
-                required
-                autoComplete="new-password"
-                placeholder="Ulangi password"
-                className="input-field"
-                value={form.confirm}
-                onChange={(e) => setForm({ ...form, confirm: e.target.value })}
-              />
+              <label htmlFor="confirm" className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-widest">
+                Konfirmasi Password
+              </label>
+              <div className="input-wrap">
+                <span className="input-icon">🔒</span>
+                <input
+                  id="confirm"
+                  type="password"
+                  required
+                  autoComplete="new-password"
+                  placeholder="Ulangi password"
+                  className="input-field-icon"
+                  value={form.confirm}
+                  onChange={(e) => setForm({ ...form, confirm: e.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Role Picker */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-2.5 uppercase tracking-widest">
+                Saya adalah...
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, role: "santri" })}
+                  className={`role-card ${form.role === "santri" ? "active" : ""}`}
+                >
+                  <div className="role-card-icon">🎓</div>
+                  <div>
+                    <div className="text-sm font-bold text-white leading-tight">Santri</div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">Pelajar Al-Qur&apos;an</div>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, role: "ustadz" })}
+                  className={`role-card ${form.role === "ustadz" ? "active" : ""}`}
+                >
+                  <div className="role-card-icon">🧑‍🏫</div>
+                  <div>
+                    <div className="text-sm font-bold text-white leading-tight">Ustadz</div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">Pengajar / Guru</div>
+                  </div>
+                </button>
+              </div>
             </div>
 
             <button
               type="submit"
+              id="btn-register"
               disabled={loading}
-              className="btn-brand w-full mt-2 disabled:opacity-60"
+              className="btn-brand w-full mt-1 disabled:opacity-60"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -135,13 +214,15 @@ export default function RegisterPage() {
                   </svg>
                   Mendaftar...
                 </span>
-              ) : "Daftar Sekarang"}
+              ) : (
+                "🚀 Daftar Sekarang"
+              )}
             </button>
           </form>
 
-          <p className="text-center text-sm text-slate-400 mt-8">
+          <p className="text-center text-sm text-slate-400 mt-6">
             Sudah punya akun?{" "}
-            <Link href="/login" className="text-brand-400 hover:text-brand-300 font-medium transition-colors">
+            <Link href="/login" className="text-brand-400 hover:text-brand-300 font-semibold transition-colors">
               Masuk di sini
             </Link>
           </p>

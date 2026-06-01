@@ -10,6 +10,7 @@ export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPass, setShowPass] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,57 +39,75 @@ export default function LoginPage() {
 
       <div className="w-full max-w-[460px] animate-fade-in-up">
         {/* Logo */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-brand-600/20 border border-brand-500/30 mb-5 animate-float">
-            <span className="text-4xl">🕌</span>
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-600/20 border border-brand-500/30 mb-4 animate-float">
+            <span className="text-3xl">🕌</span>
           </div>
-          <h1 className="text-3xl font-bold gradient-text mb-2">QuranEdutech</h1>
-          <p className="text-base text-slate-400 mt-1">Masuk ke akun Anda</p>
+          <h1 className="text-2xl font-extrabold text-white mb-1">Selamat Datang</h1>
+          <p className="text-sm text-slate-400">Masuk ke akun QuranEdutech Anda</p>
         </div>
 
         {/* Card */}
-        <div className="glass-card p-10">
+        <div className="glass-card p-8">
           {error && (
-            <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm leading-relaxed">
+            <div className="mb-5 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm leading-relaxed">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-slate-300 mb-3">
+              <label htmlFor="email" className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-widest">
                 Email
               </label>
-              <input
-                id="email"
-                type="email"
-                autoComplete="email"
-                required
-                placeholder="contoh@email.com"
-                className="input-field"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-              />
+              <div className="input-wrap">
+                <span className="input-icon">✉</span>
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  placeholder="contoh@email.com"
+                  className="input-field-icon"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
+              </div>
             </div>
 
+            {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-slate-300 mb-3">
+              <label htmlFor="password" className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-widest">
                 Password
               </label>
-              <input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                placeholder="••••••••"
-                className="input-field"
-                value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
-              />
+              <div className="input-wrap">
+                <span className="input-icon">🔒</span>
+                <input
+                  id="password"
+                  type={showPass ? "text" : "password"}
+                  autoComplete="current-password"
+                  required
+                  placeholder="••••••••"
+                  className="input-field-icon"
+                  style={{ paddingRight: "2.75rem" }}
+                  value={form.password}
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}
+                />
+                <button
+                  type="button"
+                  className="input-eye-btn"
+                  onClick={() => setShowPass(!showPass)}
+                  aria-label="Tampilkan password"
+                >
+                  {showPass ? "🙈" : "👁"}
+                </button>
+              </div>
             </div>
 
             <button
               type="submit"
+              id="btn-login"
               disabled={loading}
               className="btn-brand w-full mt-2 disabled:opacity-60"
             >
@@ -104,15 +123,15 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-slate-400 mt-8">
+          <p className="text-center text-sm text-slate-400 mt-6">
             Belum punya akun?{" "}
-            <Link href="/register" className="text-brand-400 hover:text-brand-300 font-medium transition-colors">
+            <Link href="/register" className="text-brand-400 hover:text-brand-300 font-semibold transition-colors">
               Daftar sekarang
             </Link>
           </p>
         </div>
 
-        <p className="text-center text-xs text-slate-500 mt-6">
+        <p className="text-center text-xs text-slate-500 mt-5">
           Dengan masuk, Anda menyetujui syarat dan ketentuan kami.
         </p>
       </div>
