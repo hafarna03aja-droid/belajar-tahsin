@@ -45,6 +45,29 @@ export default function QuranPage() {
   const [showTerjemah, setShowTerjemah] = useState(true);
   const [playingAyat, setPlayingAyat] = useState<number | null>(null);
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
+  const [selectedQari, setSelectedQari] = useState<string>("05");
+
+  // Load selected Qari from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("quran_selected_qari");
+      if (saved) {
+        setSelectedQari(saved);
+      }
+    }
+  }, []);
+
+  const handleQariChange = (qariKey: string) => {
+    setSelectedQari(qariKey);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("quran_selected_qari", qariKey);
+    }
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.pause();
+      audioPlayerRef.current = null;
+    }
+    setPlayingAyat(null);
+  };
 
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
 
@@ -87,10 +110,8 @@ export default function QuranPage() {
   };
 
   const playAudio = (ayat: AyatItem) => {
-    // Get the first audio URL from the record
-    const audioUrls = Object.values(ayat.audio);
-    if (audioUrls.length === 0) return;
-    const url = audioUrls[0];
+    const url = ayat.audio[selectedQari] || Object.values(ayat.audio)[0];
+    if (!url) return;
 
     if (playingAyat === ayat.nomorAyat) {
       audioPlayerRef.current?.pause();
@@ -169,19 +190,36 @@ export default function QuranPage() {
         {selectedSurah && (
           <>
             {/* Controls */}
-            <div className="flex items-center gap-2 flex-wrap">
-              <button
-                onClick={() => setShowLatin(!showLatin)}
-                className={`badge cursor-pointer ${showLatin ? "badge-success" : "bg-white/5 text-slate-500"}`}
-              >
-                Latin
-              </button>
-              <button
-                onClick={() => setShowTerjemah(!showTerjemah)}
-                className={`badge cursor-pointer ${showTerjemah ? "badge-blue" : "bg-white/5 text-slate-500"}`}
-              >
-                Terjemah
-              </button>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full glass-card p-4 border border-slate-700/30 rounded-2xl">
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={() => setShowLatin(!showLatin)}
+                  className={`badge cursor-pointer ${showLatin ? "badge-success" : "bg-white/5 text-slate-500"}`}
+                >
+                  Latin
+                </button>
+                <button
+                  onClick={() => setShowTerjemah(!showTerjemah)}
+                  className={`badge cursor-pointer ${showTerjemah ? "badge-blue" : "bg-white/5 text-slate-500"}`}
+                >
+                  Terjemah
+                </button>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-slate-400 font-medium">Pilih Qari:</span>
+                <select
+                  value={selectedQari}
+                  onChange={(e) => handleQariChange(e.target.value)}
+                  className="bg-surface-800 text-slate-200 border border-slate-700/60 rounded-xl px-2.5 py-1.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-brand-500 cursor-pointer"
+                >
+                  <option value="05">Misyari Rasyid Al-Afasi (Jernih/Studio)</option>
+                  <option value="03">Abdurrahman as-Sudais</option>
+                  <option value="01">Abdullah Al-Juhany</option>
+                  <option value="02">Abdul-Muhsin Al-Qasim</option>
+                  <option value="04">Ibrahim Al-Dossari</option>
+                  <option value="06">Yasser Al-Dosari</option>
+                </select>
+              </div>
             </div>
 
             {/* Word popup */}
