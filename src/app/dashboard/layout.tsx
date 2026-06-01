@@ -27,10 +27,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* 2 & 3 & 5. Elemen pembungkus Konten Utama (<main>) dengan padding dan max-width */}
         <main
-          className={`flex-1 w-full max-w-7xl mx-auto p-5 md:p-10 ${
+          className={`flex-1 w-full max-w-7xl mx-auto px-6 py-6 md:px-10 md:py-10 ${
             isUstadz
-              ? "pt-10"
-              : "pt-24 pb-28 md:pt-10 md:pb-10"
+              ? ""
+              : "pt-28 pb-28 md:pt-10 md:pb-10"
           }`}
         >
           {children}
