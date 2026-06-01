@@ -110,7 +110,13 @@ export default function MaterialDetailPage() {
   // AI Practice Speech Recorder
   const startRecording = useCallback(async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false,
+        },
+      });
       const mr = new MediaRecorder(stream, { mimeType: "audio/webm" });
       chunksRef.current = [];
       mr.ondataavailable = (e) => chunksRef.current.push(e.data);
