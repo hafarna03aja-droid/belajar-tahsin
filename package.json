@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma db push --accept-data-loss && next build",
     "build:cloudflare": "prisma generate && opennextjs-cloudflare build --minify",
     "cf:deploy": "npm run build:cloudflare && wrangler deploy",
     "cf:preview": "npm run build:cloudflare && wrangler dev",
